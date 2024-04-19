@@ -1,0 +1,111 @@
+/* VARIABLES */
+
+:root {
+  --color-fg: #000;
+  --color-bg: #fff;
+  --color-highlight: #f7f7f7;
+}
+
+
+/* HTML ELEMENT STYLES */
+
+html,
+body {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+
+  height: 100vh;
+
+  background-color: var(--color-bg);
+}
+
+h1 {
+  padding: 10px 20px;
+  margin: 0;
+
+  background-color: var(--color-fg);
+  color: var(--color-bg);
+
+  font-size: medium;
+  white-space: nowrap;
+}
+
+/* ROOT STYLES */
+
+#root {
+  display: grid;
+  grid-template-columns: 275px minmax(275px, 1fr) 275px;
+
+  padding: 5px;
+  gap: 5px;
+
+  box-sizing: border-box;
+  height: 100%;
+}
+
+#root>div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* COMMON COMPONENT STYLES */
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0;
+  margin: 0;
+
+  height: 100%;
+}
+
+.content>* {
+  all: unset;
+
+  padding: 10px 20px;
+  margin: 5px 0 0 0;
+}
+
+.content>div {
+  background-color: var(--color-highlight);
+  border: 2px solid var(--color-highlight);
+}
+
+/* PROJECTS */
+
+#projects>li {
+  border: 2px solid var(--color-bg);
+}
+
+/* CREATE-TASK */
+
+#create-task>* {
+  border: 2px solid var(--color-highlight);
+}
+
+#create-task>textarea {
+  display: block;
+  height: 100%;
+
+  word-wrap: break-word;
+}
+
+#create-task>div {
+  display: flex;
+
+  padding: 0;
+  gap: 5px;
+
+  background-color: unset;
+  border: unset;
+}
+
+#create-task>div>span {
+  width: 100%;
+}
+
+#create-task>div>* {
+  padding: 10px 20px;
+}
