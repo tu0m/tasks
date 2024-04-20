@@ -1,4 +1,4 @@
-function Tasks() {
+function Task() {
     return (
         <div className="content" id="tasks">
             <div>Hello World</div>
@@ -6,4 +6,4 @@ function Tasks() {
     )
 }
 
-export default Tasks
+export default Task
