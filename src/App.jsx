@@ -1,38 +1,33 @@
 import { useState } from 'react'
-import Projects from './Projects.jsx'
-import Tasks from './Tasks.jsx'
+import Project from './Project.jsx'
+import Task from './Task.jsx'
 import CreateTask from './CreateTask.jsx'
 
 function App() {
-  const [count, setCount] = useState(0);
+  // remove this when localstorage is done?
+  // const [taskData, setTaskData] = useState({
+  //   title: "",
+  //   body: "",
+  //   project: "",
+  //   timestamp: "",
+  //   uuid: ""
+  // })
 
-  let data = [
-    {
-      "title": "test title 1",
-      "body": "test body 1",
-      "project": "projectname 1",
-      "timestamp": "1713435166"
-    },
-    {
-      "title": "test title 2",
-      "body": "test body 2",
-      "project": "projectname 2",
-      "timestamp": "1"
-    },
-  ]
+  // const [editTask, setEditTask] = useState()
 
-  let titles = ["test title 1", "test title 2"]
-  let projects = ["projectname 1", "projectname 2"]
+  // read localstorage and create multiple Task components
+  // if localstorage changes, create or remove components? useEffect?
+  // save tasks to localStorage with their UUID as key
 
   return (
     <>
       <div>
         <h1>Projects</h1>
-        <Projects data={data} />
+        <Project />
       </div>
       <div>
         <h1>Tasks</h1>
-        <Tasks data={data} />
+        <Task />
       </div>
       <div>
         <h1>New Task</h1>
