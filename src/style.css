@@ -35,7 +35,7 @@ h1 {
 
 #root {
   display: grid;
-  grid-template-columns: 275px minmax(275px, 1fr) 275px;
+  grid-template-columns: minmax(auto, 275px) auto max-content;
 
   padding: 5px;
   gap: 5px;
@@ -77,6 +77,16 @@ h1 {
 
 #projects>li {
   border: 2px solid var(--color-bg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* TASKS */
+#task {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* CREATE-TASK */
@@ -104,6 +114,7 @@ h1 {
 
 #create-task>div>span {
   width: 100%;
+  white-space: nowrap;
 }
 
 #create-task>div>* {
