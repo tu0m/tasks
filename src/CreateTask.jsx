@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useReducer } from "react"
+import { useEffect, useState } from "react"
 
 const emptyForm = {
     title: "",
@@ -9,7 +9,8 @@ const emptyForm = {
 }
 
 export default function CreateTask({ taskData = emptyForm }) {
-    const [defaultValues, setDefaultValues] = useState(taskData)
+    const [formData, setFormData] = useState(taskData)
+    const [date, setDate] = useState(timestampToDate(Date.now()))
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -20,68 +21,42 @@ export default function CreateTask({ taskData = emptyForm }) {
         formData.set('timestamp', Date.now())
 
         const object = Object.fromEntries(formData)
-        console.log(object)
 
-        // if (!title) return
-        // saveData()
+        // this is probably unnecessary as the form already requires a title
+        if (!object.title) return
+        saveData(object)
 
-        // reset form
-
-
-        // * YOU ARE HERE *
-        // TODO: force re-render of the form? oruse some other way to set default values?
-        setDefaultValues(emptyForm)
-
-
-
-
-
-
-        // event.target.reset()
-        // // reset uuid
-        // setUuid(null)
+        // clear form
+        setFormData(emptyForm)
     }
 
-    function saveData() {
-        // const formData = {
-        //     title: title,
-        //     body: body,
-        //     project: project,
-        //     timestamp: timestamp,
-        //     uuid: uuid
-        // }
-
-        // localStorage.setItem(formData.uuid, JSON.stringify(formData))
-        // window.dispatchEvent(new Event("storage"))
+    function saveData(object) {
+        localStorage.setItem(object.uuid, JSON.stringify(object))
+        window.dispatchEvent(new Event("storage"))
     }
 
-    // // keep timestamp up to date
-    // useEffect(() => {
-    //     const updateTimestamp = () => setTimestamp(Date.now())
-    //     const interval = setInterval(updateTimestamp, 1000)
-    //     updateTimestamp()
+    // show current date
+    useEffect(() => {
+        const updateDate = () => setDate(timestampToDate(Date.now()))
+        const interval = setInterval(updateDate, 1000)
 
-    //     return () => clearInterval(interval)
-    // }, [])
+        return () => clearInterval(interval)
+    }, [])
 
-    // // set uuid
-    // useEffect(() => {
-    //     if (!uuid) console.log('setuuid')
-    //     if (!uuid) setUuid(crypto.randomUUID())
-    // }, [uuid])
-
+    function timestampToDate(timestamp) {
+        return new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: '2-digit' }).format(timestamp)
+    }
 
     return (
         <form onSubmit={handleSubmit} className="content" id="create-task">
-            <input name="title" placeholder="Title" defaultValue={defaultValues.title} required></input>
-            <textarea name="body" placeholder="Additional Information…" defaultValue={defaultValues.body}></textarea>
-            <input name="project" placeholder="Project" defaultValue={defaultValues.project}></input>
-            <input name="uuid" type="hidden" defaultValue={defaultValues.uuid}></input>
+            <input value={formData.title} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="title" placeholder="Title" required></input>
+            <textarea value={formData.body} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="body" placeholder="Additional Information…"></textarea>
+            <input value={formData.project} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="project" placeholder="Project"></input>
+            <input name="uuid" type="hidden" value={formData.uuid}></input>
             <div>
-                {/* <span>{new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: '2-digit' }).format(form.timestamp)}</span> */}
-                {/* <span>{timestamp}</span> */}
+                <span>{date}</span>
                 <button type="submit">Save</button>
-                <button type="reset">Clear</button>
+                <button type="reset" onClick={() => setFormData(emptyForm)}>Clear</button>
             </div>
         </form>
     )
