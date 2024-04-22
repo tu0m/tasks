@@ -1,56 +1,88 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef, useReducer } from "react"
 
-const initialFormData = {
+const emptyForm = {
     title: "",
     body: "",
     project: "",
     timestamp: "",
-    uuid: crypto.randomUUID()
+    uuid: ""
 }
 
-function CreateTask({ formData = null }) {
-    const [{ title, body, project, timestamp, uuid }, setFormData] = useState(formData ?? initialFormData)
-    const [date, setDate] = useState(Date.now())
-
-    useEffect(() => {
-        let time = setInterval(() => {
-            setDate(new Date())
-        }, 1000);
-        return () => {
-            clearInterval(time);
-        };
-    })
-
-    function handleChange(event) {
-        const { name, value } = event.target
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
-    }
-
-    function clearForm() {
-        setFormData({ ...initialFormData })
-        // also remove task list highlight?
-    }
+export default function CreateTask({ taskData = emptyForm }) {
+    const [defaultValues, setDefaultValues] = useState(taskData)
 
     function handleSubmit(event) {
         event.preventDefault()
-        // storage.save().then(clearForm)
-        console.log(title, body, project, timestamp, uuid)
-        // if uuid is empty, set one
-        // save to localStorage with UUID as the key
+        const formData = new FormData(event.target)
+        // set uuid if needed
+        if (!formData.get('uuid').length) formData.set('uuid', crypto.randomUUID())
+        // set new timestamp
+        formData.set('timestamp', Date.now())
+
+        const object = Object.fromEntries(formData)
+        console.log(object)
+
+        // if (!title) return
+        // saveData()
+
+        // reset form
+
+
+        // * YOU ARE HERE *
+        // TODO: force re-render of the form? oruse some other way to set default values?
+        setDefaultValues(emptyForm)
+
+
+
+
+
+
+        // event.target.reset()
+        // // reset uuid
+        // setUuid(null)
     }
+
+    function saveData() {
+        // const formData = {
+        //     title: title,
+        //     body: body,
+        //     project: project,
+        //     timestamp: timestamp,
+        //     uuid: uuid
+        // }
+
+        // localStorage.setItem(formData.uuid, JSON.stringify(formData))
+        // window.dispatchEvent(new Event("storage"))
+    }
+
+    // // keep timestamp up to date
+    // useEffect(() => {
+    //     const updateTimestamp = () => setTimestamp(Date.now())
+    //     const interval = setInterval(updateTimestamp, 1000)
+    //     updateTimestamp()
+
+    //     return () => clearInterval(interval)
+    // }, [])
+
+    // // set uuid
+    // useEffect(() => {
+    //     if (!uuid) console.log('setuuid')
+    //     if (!uuid) setUuid(crypto.randomUUID())
+    // }, [uuid])
+
 
     return (
         <form onSubmit={handleSubmit} className="content" id="create-task">
-            <input name="title" placeholder="Title" value={title} onChange={handleChange}></input>
-            <textarea name="body" placeholder="Additional Information…" value={body} onChange={handleChange}></textarea>
-            <input name="project" placeholder="Project" value={project} onChange={handleChange}></input>
+            <input name="title" placeholder="Title" defaultValue={defaultValues.title} required></input>
+            <textarea name="body" placeholder="Additional Information…" defaultValue={defaultValues.body}></textarea>
+            <input name="project" placeholder="Project" defaultValue={defaultValues.project}></input>
+            <input name="uuid" type="hidden" defaultValue={defaultValues.uuid}></input>
             <div>
-                <span>{new Intl.DateTimeFormat(undefined, { year: '2-digit', month: '2-digit', day: '2-digit' }).format(date)}</span>
+                {/* <span>{new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: '2-digit' }).format(form.timestamp)}</span> */}
+                {/* <span>{timestamp}</span> */}
                 <button type="submit">Save</button>
-                <button onClick={clearForm}>Clear</button>
+                <button type="reset">Clear</button>
             </div>
         </form>
     )
 }
-
-export default CreateTask
