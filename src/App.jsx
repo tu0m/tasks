@@ -1,51 +1,52 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Project from './Project.jsx'
 import Task from './Task.jsx'
-import CreateTask from './CreateTask.jsx'
+import Editor from './Editor.jsx'
 
 function App() {
-  useEffect(() => window.onstorage = () => renderTasks())
+  // listen for storage events and update state
+  const [taskStorage, setTaskStorage] = useState(Object.values(localStorage).map(task => { return JSON.parse(task) }))
+  // TODO: redo this so that it doesn't always set new array but instead compares and updates existing array if needed
+  window.onstorage = () => setTaskStorage(Object.values(localStorage).map(task => { return JSON.parse(task) }))
 
-  function renderTasks() {
-    console.log('change in localStorage')
+  // filter tasks based on selected project
+  const [currentProject, setCurrentProject] = useState("All")
+
+  // edit selected task
+  const [currentTask, setCurrentTask] = useState()
+
+  function projectsSortedAndFiltered(array) {
+    // create Set out of taskStorage, convert it to Array, map project names, sort with no case-sensitivity, filter out empty values
+    return [...new Set(array.map(task => task.project).sort(Intl.Collator().compare).filter(item => item))]
   }
 
-  // remove this when localstorage is done?
-  // const [taskData, setTaskData] = useState({
-  //   title: "",
-  //   body: "",
-  //   project: "",
-  //   timestamp: "",
-  //   uuid: ""
-  // })
-
-  // const [editTask, setEditTask] = useState()
-
-  // read localstorage and create multiple Task components
-  // if localstorage changes, create or remove components? useEffect?
-  // save tasks to localStorage with their UUID as key
-
-  const exampleFormData = {
-    title: "Title1",
-    body: "Body2",
-    project: "Project3",
-    timestamp: "1713794256000",
-    uuid: "233a732a-9e18-4e84-8255-31d95d245a12"
+  function tasksSortedAndFiltered(array) {
+    // return tasks sorted by timestamp and filtered by the selected project
+    return currentProject == "All"
+      ? array.sort((a, b) => a.timestamp - b.timestamp).reverse()
+      : array.sort((a, b) => a.timestamp - b.timestamp).reverse().filter(task => task.project == currentProject)
   }
 
   return (
     <>
       <div>
         <h1>Projects</h1>
-        <Project />
+        <ul className="content" id="projects">
+          <Project taskData={"All"} key={"All"} isSelected={"All" == currentProject} onSelect={setCurrentProject}></Project>
+          {projectsSortedAndFiltered(taskStorage).map(project => {
+            return <Project taskData={project} key={project} isSelected={project == currentProject} onSelect={setCurrentProject}></Project>
+          })}
+        </ul>
       </div>
       <div>
         <h1>Tasks</h1>
-        <Task />
+        {tasksSortedAndFiltered(taskStorage).map(task => {
+          return <Task taskData={task} key={task.timestamp} onSelectTask={setCurrentTask} onSelectProject={setCurrentProject}></Task>
+        })}
       </div>
       <div>
-        <h1>New Task</h1>
-        <CreateTask taskData={exampleFormData} />
+        <h1>Editor</h1>
+        <Editor taskData={currentTask}></Editor>
       </div>
     </>
   )

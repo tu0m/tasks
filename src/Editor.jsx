@@ -8,8 +8,10 @@ const emptyForm = {
     uuid: ""
 }
 
-export default function CreateTask({ taskData = emptyForm }) {
+export default function Editor({ taskData = emptyForm }) {
     const [formData, setFormData] = useState(taskData)
+    useEffect(() => setFormData(taskData), [taskData])
+
     const [date, setDate] = useState(timestampToDate(Date.now()))
 
     function handleSubmit(event) {
@@ -24,6 +26,7 @@ export default function CreateTask({ taskData = emptyForm }) {
 
         // this is probably unnecessary as the form already requires a title
         if (!object.title) return
+
         saveData(object)
 
         // clear form
@@ -48,10 +51,10 @@ export default function CreateTask({ taskData = emptyForm }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="content" id="create-task">
-            <input value={formData.title} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="title" placeholder="Title" required></input>
-            <textarea value={formData.body} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="body" placeholder="Additional Information…"></textarea>
+        <form onSubmit={handleSubmit} id="create-task">
+            <input value={formData.title} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="title" placeholder="Task" required></input>
             <input value={formData.project} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="project" placeholder="Project"></input>
+            <textarea value={formData.body} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="body" placeholder="Additional Information…"></textarea>
             <input name="uuid" type="hidden" value={formData.uuid}></input>
             <div>
                 <span>{date}</span>

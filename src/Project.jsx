@@ -1,11 +1,16 @@
-function Project() {
-    // const projectNames = data.map(item => <li>{item.title}</li>)
+import { useEffect, useState } from "react"
+
+export default function Project({ taskData, isSelected, onSelect }) {
+
+    const [selected, setSelected] = useState(isSelected)
+    useEffect(() => setSelected(isSelected), [isSelected])
+
+    function selectProject(event) {
+        if ((event.type == "keyup" && !(event.key == "Enter" || event.key == " "))) return
+        onSelect(taskData)
+    }
 
     return (
-        <ul className="content" id="projects">
-            {/* {projectNames} */}
-        </ul>
+        <li onClick={selectProject} onKeyUp={selectProject} tabIndex="0" data-selected={selected}>{taskData}</li>
     )
 }
-
-export default Project
