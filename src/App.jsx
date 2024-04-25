@@ -6,7 +6,9 @@ import Editor from './Editor.jsx'
 function App() {
   // listen for storage events and update state
   const [taskStorage, setTaskStorage] = useState(Object.values(localStorage).map(task => { return JSON.parse(task) }))
-  // TODO: redo this so that it doesn't always set new array but instead compares and updates existing array if needed
+  // TIL: I think there is an issue with react developer tools in chrome or maybe with the 'vite run dev' thingy.
+  // Sometimes useState stops working after like 2 seconds from page refresh? Clicking around react dev tools fixes it?
+  // Or maybe I'm the issue. It's a WONTFIX then.
   window.onstorage = () => setTaskStorage(Object.values(localStorage).map(task => { return JSON.parse(task) }))
 
   // filter tasks based on selected project
@@ -16,7 +18,7 @@ function App() {
   const [currentTask, setCurrentTask] = useState()
 
   function projectsSortedAndFiltered(array) {
-    // create Set out of taskStorage, convert it to Array, map project names, sort with no case-sensitivity, filter out empty values
+    // create Set out of taskStorage, convert it back to Array (removes duplicates), map project names, sort with no case-sensitivity, filter out empty values
     return [...new Set(array.map(task => task.project).sort(Intl.Collator().compare).filter(item => item))]
   }
 
