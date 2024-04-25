@@ -2,4 +2,4 @@
 A simple todo list.
 Made using React.
 
-(![screenshot](screenshot.png))
+![screenshot](screenshot.png)
