@@ -6,8 +6,10 @@ export default function Task({ taskData, onSelectTask, onSelectProject }) {
     }
 
     function deleteTask() {
-        localStorage.removeItem(taskData.uuid)
+        if (confirm('This task will be deleted. Continue?')) {
+            localStorage.removeItem(`task-${taskData.uuid}`)
         window.dispatchEvent(new Event("storage"))
+        }
     }
 
     function selectProject(event) {

@@ -5,11 +5,15 @@ import Editor from './Editor.jsx'
 
 function App() {
   // listen for storage events and update state
-  const [taskStorage, setTaskStorage] = useState(Object.values(localStorage).map(task => { return JSON.parse(task) }))
+  const [taskStorage, setTaskStorage] = useState(getLocalStorage())
   // TIL: I think there is an issue with react developer tools in chrome or maybe with the 'vite run dev' thingy.
   // Sometimes useState stops working after like 2 seconds from page refresh? Clicking around react dev tools fixes it?
   // Or maybe I'm the issue. It's a WONTFIX then.
-  window.onstorage = () => setTaskStorage(Object.values(localStorage).map(task => { return JSON.parse(task) }))
+  window.onstorage = () => setTaskStorage(getLocalStorage())
+
+  function getLocalStorage() {
+    return Object.entries(localStorage).filter(([key, value]) => key.startsWith('task-')).map(([key, value]) => JSON.parse(value))
+  }
 
   // filter tasks based on selected project
   const [currentProject, setCurrentProject] = useState("All")

@@ -34,8 +34,14 @@ export default function Editor({ taskData = emptyForm }) {
     }
 
     function saveData(object) {
-        localStorage.setItem(object.uuid, JSON.stringify(object))
+        localStorage.setItem(`task-${object.uuid}`, JSON.stringify(object))
         window.dispatchEvent(new Event("storage"))
+    }
+
+    function clearForm() {
+        if (confirm('All form text will be cleared. Continue?')) {
+            setFormData(emptyForm)
+        }
     }
 
     // show current date
@@ -59,7 +65,7 @@ export default function Editor({ taskData = emptyForm }) {
             <div>
                 <span>{date}</span>
                 <button type="submit">Save</button>
-                <button type="reset" onClick={() => setFormData(emptyForm)}>Clear</button>
+                <button type="reset" onClick={clearForm}>Clear</button>
             </div>
         </form>
     )
