@@ -8,12 +8,11 @@ export default function Task({ taskData, onSelectTask, onSelectProject }) {
     function deleteTask() {
         if (confirm('This task will be deleted. Continue?')) {
             localStorage.removeItem(`task-${taskData.uuid}`)
-        window.dispatchEvent(new Event("storage"))
+            window.dispatchEvent(new Event("storage"))
         }
     }
 
     function selectProject(event) {
-        // TODO: pass project to parent
         if ((event.type == "keyup" && !(event.key == "Enter" || event.key == " "))) return
         onSelectProject(taskData.project)
     }
