@@ -145,6 +145,8 @@ li[data-selected="true"]::after {
   flex-direction: column;
 
   min-width: 0;
+
+  overflow-y: scroll;
 }
 
 
@@ -213,31 +215,31 @@ li[data-selected="true"]::after {
 }
 
 
-/* CREATE-TASK */
+/* EDITOR */
 
-#create-task {
+#edit {
   display: flex;
   flex-direction: column;
 }
 
-#create-task>* {
+#edit>* {
   font: inherit;
 
   padding: 10px 20px;
   margin: 5px 0 0 0;
 }
 
-#create-task>input:first-of-type {
+#edit>input:first-of-type {
   font-weight: bold;
 }
 
-#create-task>div {
+#edit>div {
   display: flex;
 
   padding: 0;
   gap: 5px;
 }
 
-#create-task>div>* {
+#edit>div>* {
   padding: 10px 20px;
 }

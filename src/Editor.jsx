@@ -51,7 +51,7 @@ export default function Editor({ taskData = emptyForm }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} id="create-task">
+        <form onSubmit={handleSubmit} id="edit">
             <input value={formData.title} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="title" placeholder="Task" required></input>
             <input value={formData.project} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="project" placeholder="Project"></input>
             <textarea value={formData.body} onChange={(e) => setFormData(prevFormData => ({ ...prevFormData, [e.target.name]: e.target.value }))} name="body" placeholder="Additional Information…"></textarea>
