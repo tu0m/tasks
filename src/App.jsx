@@ -27,8 +27,10 @@ function App() {
   }
 
   function tasksSortedAndFiltered(array) {
-    // return tasks sorted by timestamp and filtered by the selected project
-    return currentProject == "All"
+    // if project has 0 tasks, show all tasks
+    if (currentProject != "All" && array.filter(task => task.project == currentProject) == 0) setCurrentProject("All")
+    // show all tasks or filter by project name
+    return (currentProject == "All")
       ? array.sort((a, b) => a.timestamp - b.timestamp).reverse()
       : array.sort((a, b) => a.timestamp - b.timestamp).reverse().filter(task => task.project == currentProject)
   }
