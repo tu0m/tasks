@@ -1,0 +1,170 @@
+/* VARIABLES */
+
+:root {
+    --pad-s: 4px;
+    --pad-m: 8px;
+    --pad-l: 16px;
+
+    /* https://colordesigner.io/gradient-generator */
+    --color-1: hsl(0, 0%, 0%);
+    --color-2: hsl(0, 0%, 3%);
+    --color-3: hsl(0, 0%, 7%);
+    --color-4: hsl(0, 0%, 93%);
+    --color-5: hsl(0, 0%, 97%);
+    --color-6: hsl(0, 0%, 100%);
+}
+
+/* RESPONSIVE LAYOUT */
+
+@container body (width < 700px) {
+    main p {
+        display: none;
+    }
+
+    main h2 {
+        flex: 1;
+    }
+}
+
+@container body (width < 600px) {
+    main a {
+        display: none;
+    }
+}
+
+@container body (width < 500px) {
+    main time {
+        display: none;
+    }
+}
+
+/* RESET */
+
+h1,
+h2,
+p,
+a,
+button {
+    all: unset;
+}
+
+/* TEXT STYLES */
+
+h1,
+h2 {
+    font-weight: bold;
+}
+
+/* LAYOUT */
+
+body {
+    container-type: inline-size;
+    container-name: body;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    margin: 0;
+    padding: var(--pad-s);
+    gap: var(--pad-s);
+
+    font-family: sans-serif;
+}
+
+main {
+    min-width: 0;
+}
+
+main p {
+    padding-left: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header,
+li {
+    display: flex;
+}
+
+li {
+    margin-top: var(--pad-s);
+}
+
+h1,
+p {
+    flex: 1;
+}
+
+h2,
+p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 20px;
+}
+
+a,
+button,
+time {
+    margin-left: var(--pad-s);
+}
+
+h1,
+h2,
+p,
+a,
+button,
+time {
+    padding: var(--pad-m) var(--pad-l);
+    white-space: nowrap;
+}
+
+aside a[data-selected="true"] {
+    font-weight: bold;
+}
+
+aside a[data-selected="true"]::after {
+    content: " →";
+}
+
+/* COLORS */
+
+h1,
+h2,
+p,
+a,
+button,
+time {
+    background-color: var(--color-5);
+    color: var(--color-1);
+}
+
+header>h1,
+header>button {
+    background-color: var(--color-1);
+    color: var(--color-6);
+}
+
+aside a {
+    background-color: var(--color-6);
+}
+
+/* .task>*:focus-within,
+.task>div:hover,
+.task>div:hover~span,
+.task>div:hover~button,
+.task>button:hover,
+.taskProject:hover {
+  background-color: var(--color-select);
+  border: 2px solid var(--color-select);
+} */
+
+main a:hover,
+button:hover,
+li:has(>:is(h2:hover, p:hover)) h2,
+li:has(>:is(h2:hover, p:hover)) p {
+    background-color: var(--color-4);
+}
