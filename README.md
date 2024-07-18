@@ -1,10 +1,8 @@
 # Tasks
-A simple todo list, made using React.
+A simple todo list. A backend project using node.js.
 
-![screenshot](screenshot.png)
+![screenshot](screenshot.png) (TODO: new screenshot)
 
 TODO
 ---
-- add mobile layout
-- add dark mode?
-- add tests
+- 
